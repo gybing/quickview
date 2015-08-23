@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Quickview Plug-in
+Bundle-SymbolicName: com.szs.quickview; singleton:=true
+Bundle-Version: 1.4.3
+Bundle-Activator: com.szs.quickview.Activator
+Bundle-Vendor: SZS
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources
+Eclipse-LazyStart: true

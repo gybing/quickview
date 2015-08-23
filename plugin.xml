@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IFile"
+            id="com.szs.quickview.contribution1">
+         <menu
+               label="&amp;Quick View "
+               path="additions"
+               id="com.szs.quickview.menu1">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               label="&amp;Reset"
+               class="com.szs.quickview.popup.actions.ResetAction"
+               menubarPath="com.szs.quickview.menu1/group1"
+               enablesFor="1"
+               id="com.szs.quickview.resetAction">
+         </action>
+          <action
+               label="&amp;Config"
+               class="com.szs.quickview.popup.actions.ConfigAction"
+               menubarPath="com.szs.quickview.menu1/group1"
+               enablesFor="1"
+               id="com.szs.quickview.configAction">
+         </action>
+         <action
+               label="&amp;Tomcat"
+               class="com.szs.quickview.popup.actions.ViewAction"
+               menubarPath="com.szs.quickview.menu1/group1"
+               enablesFor="1"
+               id="com.szs.quickview.newAction">
+         </action>
+
+      </objectContribution>
+   </extension>
+
+</plugin>
