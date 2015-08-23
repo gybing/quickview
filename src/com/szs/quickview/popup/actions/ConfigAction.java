@@ -22,7 +22,7 @@ public class ConfigAction implements IObjectActionDelegate {
 		+ URL_KEY + "=localhost\r\n"
 		+ MODE_KEY + "=ie\r\n" 
 		+ "#" + MODE_KEY + "=C:\\\\Program Files\\\\Mozilla Firefox\\\\firefox.exe\r\n"
-		+ "#====== " + ELIDES_KEY + " eg: (\"WebRoot/Start.tml\" ----> \"http://localhost:8080/***/Start\") ======\r\n"
+		+ "#====== " + ELIDES_KEY + " multiple split by \",\" eg: (\"WebRoot/Start.tml\" ----> \"http://localhost:8080/***/Start\") ======\r\n"
 		+ ELIDES_KEY + "=tml";
 	}
 	

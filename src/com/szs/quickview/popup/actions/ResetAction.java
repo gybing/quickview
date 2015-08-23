@@ -1,28 +1,19 @@
 package com.szs.quickview.popup.actions;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.InvalidPropertiesFormatException;
-import java.util.Properties;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.eclipse.core.internal.resources.File;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
+
+import com.szs.quickview.utils.Static;
 
 public class ResetAction implements IObjectActionDelegate {
 
@@ -68,7 +59,7 @@ public class ResetAction implements IObjectActionDelegate {
 
 		MessageDialog.openInformation(
 				new Shell(),
-				"Message                            --Xiaoshan",
+				Static.TITLE,
 				"Reset succeed.");
 	}
 

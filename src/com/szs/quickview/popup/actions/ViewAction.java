@@ -3,7 +3,6 @@ package com.szs.quickview.popup.actions;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
@@ -17,10 +16,15 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import com.szs.quickview.utils.Static;
 
 public class ViewAction implements IObjectActionDelegate {
 
@@ -52,7 +56,7 @@ public class ViewAction implements IObjectActionDelegate {
 		} catch (FileNotFoundException e) {
 		} catch (IOException e) {
 		}
-		
+
 		String port = p.getProperty(ConfigAction.PORT_KEY, "8080");
 		String url = p.getProperty(ConfigAction.URL_KEY, "localhost");
 		String ie = p.getProperty(ConfigAction.MODE_KEY, "iexplore");
@@ -62,13 +66,13 @@ public class ViewAction implements IObjectActionDelegate {
 			houZhuiArray = elidesStr.split(",");
 		}
 		
-		
+
 		ie = ie.toLowerCase().trim().equals("ie") ? "iexplore" : ie;
 
 		String fileName = "/" + f.getLocation().toOSString().substring(f.getLocation().toOSString().lastIndexOf("WebRoot") + "WebRoot".length() + 1);
-		String propUrl = f.getProject().getLocation().toOSString() + "\\.mymetadata";
+		String propUrl = f.getProject().getLocation().toOSString() + "\\.project";
 		String webName = getProWebName(propUrl);
-		
+
 		if(houZhuiArray != null && houZhuiArray.length > 0){
 			for(String houZhui : houZhuiArray){
 				if(f.getFileExtension().equals(houZhui.trim())){
@@ -77,11 +81,10 @@ public class ViewAction implements IObjectActionDelegate {
 				}
 			}
 		}
-		
-		
 		String ml = "\"Quick View Title\" \"" + ie + "\" \"http://" + url + ":" + port + webName + fileName + "\"";
+
 		try {
-			Runtime.getRuntime().exec("cmd /c start "   +   ml);
+			Runtime.getRuntime().exec("cmd /c start " + ml);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -103,22 +106,45 @@ public class ViewAction implements IObjectActionDelegate {
 		try {
 			docBuilder = docBuilderFactory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         Document doc = null;
 		try {
-			doc = docBuilder.parse (new java.io.File(url));
+			java.io.File f = new java.io.File(url);
+			if (!f.exists()) {
+				MessageDialog.openInformation(
+						new Shell(),
+						Static.TITLE,
+						".project not found");
+				return null;
+			}
+			doc = docBuilder.parse (f);
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			MessageDialog.openInformation(
+					new Shell(),
+					Static.TITLE,
+					"读取.project失败");
+			return null;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			MessageDialog.openInformation(
+					new Shell(),
+					Static.TITLE,
+					"读取.project失败");
+			return null;
 		}
 
-        String s = doc.getChildNodes().item(0).getAttributes().getNamedItem("context-root").getNodeValue();
-        return s;
+        NodeList nodeList = doc.getChildNodes().item(0).getChildNodes();
+        String nameNode = null;
+        for (int i = 0, j = nodeList.getLength(); i < j; i++) {
+        	Node n = nodeList.item(i);
+        	if (n.getNodeName().equals("name")) {
+        		nameNode = n.getTextContent();
+        		break;
+        	}
+        }
+        		
+        return "/"+ nameNode;
 	}
-
 }
