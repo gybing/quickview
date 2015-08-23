@@ -72,6 +72,9 @@ public class ViewAction implements IObjectActionDelegate {
 		String fileName = "/" + f.getLocation().toOSString().substring(f.getLocation().toOSString().lastIndexOf("WebRoot") + "WebRoot".length() + 1);
 		String propUrl = f.getProject().getLocation().toOSString() + "\\.project";
 		String webName = getProWebName(propUrl);
+		if (webName == null) {
+			return;
+		}
 
 		if(houZhuiArray != null && houZhuiArray.length > 0){
 			for(String houZhui : houZhuiArray){
@@ -124,14 +127,14 @@ public class ViewAction implements IObjectActionDelegate {
 			MessageDialog.openInformation(
 					new Shell(),
 					Static.TITLE,
-					"读取.project失败");
+					"error for read .project");
 			return null;
 		} catch (IOException e) {
 			e.printStackTrace();
 			MessageDialog.openInformation(
 					new Shell(),
 					Static.TITLE,
-					"读取.project失败");
+					"error for read .project");
 			return null;
 		}
 
